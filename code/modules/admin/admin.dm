@@ -1083,16 +1083,8 @@
 						for(var/obj/item/clothing/under/W in world)
 							W.icon_state = "schoolgirl"
 							W.item_state = "w_suit"
-							W.color = "schoolgirl"
+							W.item_color = "schoolgirl"
 						message_admins("[key_name_admin(usr)] activated Japanese Animes mode")
-					else
-						alert("You cannot perform this action. You must be of a higher administrative rank!")
-						return
-				if("brokenlight")
-					if (src.rank in list("Super Administrator", "Coder", "Host"))
-						for(var/obj/machinery/light/L in world)
-							L.broken()
-							sleep(1)
 					else
 						alert("You cannot perform this action. You must be of a higher administrative rank!")
 						return
@@ -1430,7 +1422,6 @@
 <A href='?src=\ref[src];secretsfun=prisonwarp'>Warp all Players to Prison</A><BR>
 <A href='?src=\ref[src];secretsfun=traitor_all'>Everyone is the traitor</A><BR>
 <A href='?src=\ref[src];secretsfun=wave'>Spawn a wave of meteors</A><BR>
-<A href='?src=\ref[src];secretsfun=brokenlight'>Broken Light</A><BR>
 <A href='?src=\ref[src];secretsfun=flicklights'>Ghost Mode</A><BR>"}
 /*
 <A href='?src=\ref[src];secretsfun=cleanexcrement'>Remove all urine/poo from station</A><BR>

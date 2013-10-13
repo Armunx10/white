@@ -8,7 +8,7 @@
 		var/turf/picked
 
 		for(var/turf/T in world)
-			if(T.z < 5 && istype(T,/turf/simulated/floor)&&!istype(T,/turf/simulated/floor/open))
+			if(T.z < 5 && istype(T,/turf/simulated/floor))
 				turfs += T
 
 		for(var/turf/T in world)

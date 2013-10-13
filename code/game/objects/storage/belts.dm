@@ -10,7 +10,6 @@
 	can_hold = list(
 	"/obj/item/device/radio",
 	"/obj/item/weapon/hand_labeler",
-//	"/obj/item/weapon/oreprospector",
 	"/obj/item/device/pda",
 	"/obj/item/device/analyzer",
 	"/obj/item/weapon/crowbar",
@@ -47,7 +46,8 @@
 	can_hold = list(
 	"/obj/item/device/radio",
 	"/obj/item/device/detective_scanner",
-	"/obj/item/device/ammo",
+	"/obj/item/ammo_magazine",
+	"/obj/item/ammo_casing",
 	"/obj/item/device/pda",
 	"/obj/item/weapon/gun/projectile",
 	"/obj/item/weapon/gun/energy",
@@ -55,17 +55,17 @@
 	"/obj/item/device/flash",
 	"/obj/item/weapon/melee/baton",
 	"/obj/item/weapon/melee/classic_baton",
-	"/obj/item/weapon/grenade/flashbang",
-	"/obj/item/weapon/grenade/emp",
+	"/obj/item/weapon/grenade",
 	"/obj/item/weapon/camera_test",
-	"/obj/item/weapon/recorder")
+	"/obj/item/weapon/recorder",
+	"/obj/item/weapon/reagent_containers/spray/pepper")
 
 /obj/item/weapon/storage/belt/security/reaper/New()
 	..()
 	new /obj/item/weapon/handcuffs(src)
 	new /obj/item/weapon/handcuffs(src)
 	new /obj/item/weapon/melee/baton(src)
-	new /obj/item/weapon/gun/energy(src)
+	new /obj/item/weapon/gun/energy/gun(src)
 	new /obj/item/weapon/grenade/flashbang(src)
 	new /obj/item/weapon/grenade/flashbang(src)
 	new /obj/item/device/flash(src)

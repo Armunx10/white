@@ -629,14 +629,12 @@
 		reagents.add_reagent("nanites", 4)
 		bitesize = 2
 
-/obj/item/weapon/reagent_containers/food/snacks/roburgerbig
-	name = "roburger"
+/obj/item/weapon/reagent_containers/food/snacks/roburger/big
 	desc = "This massive patty looks like poison. Beep."
-	icon_state = "roburger"
 	volume = 100
 	New()
 		..()
-		reagents.add_reagent("nanites", 100)
+		reagents.add_reagent("nanites", 10)
 		bitesize = 0.1
 
 /obj/item/weapon/reagent_containers/food/snacks/xenoburger
@@ -935,6 +933,7 @@
 	desc = "Guaranteed to survive longer then you will."
 	New()
 		..()
+		reagents.add_reagent("nutriment", 2)
 		reagents.add_reagent("sugar", 4)
 		bitesize = 2
 
@@ -955,8 +954,9 @@
 	trash = /obj/item/trash/syndi_cakes
 	New()
 		..()
-		reagents.add_reagent("nutriment", 4)
-		reagents.add_reagent("doctorsdelight", 5)
+		reagents.add_reagent("nutriment", 6)
+		reagents.add_reagent("doctorsdelight", 2)
+		reagents.add_reagent("syndicream", 4)
 		bitesize = 3
 
 /obj/item/weapon/reagent_containers/food/snacks/loadedbakedpotato

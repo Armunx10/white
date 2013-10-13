@@ -431,6 +431,7 @@
 
 	Bumped(var/atom/movable/AM) //Go straight into the chute
 		//if(istype(AM, /obj/item/projectile) || istype(AM, /obj/item/weapon/dummy))	return // PEW PEW DISPOSAL LAZZORZ
+		if(istype(AM, /obj/mecha)) return
 		switch(dir)
 			if(NORTH)
 				if(AM.loc.y != loc.y+1) return
@@ -694,8 +695,8 @@
 			H.loc = P
 			if((P.dir & (P.dir - 1)) || istype(P,/obj/structure/disposalpipe/crossZ) || istype(P,/obj/structure/disposalpipe/junction))
 				for(var/mob/M in H)
-					if(prob(30)) M.weakened += 1
-					if(prob(10)) M.paralysis += 1
+					if(prob(40)) M.weakened += 1
+					if(prob(5)) M.paralysis += 2
 					if(istype(M,/mob/living/carbon/human) && prob(40))
 						var/datum/organ/external/temp = pick(M:organs)
 						if (istype(temp, /datum/organ/external))

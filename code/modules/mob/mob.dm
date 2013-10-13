@@ -1044,10 +1044,10 @@ mob/verb/turnwest()
 							return
 
 						else
-							usr << pick("You hear something click, but it doesn't open yet.",	// - Uristqwerty
-										"The latch resists!",									// - IRC: BowlSoldier
-										"The chain is starting to give!",						// - IRC: BowlSoldier
-										"The chain bends a little.",							// - IRC: STALKER
+							usr << pick(//"You hear something click, but it doesn't open yet.",	// - Uristqwerty
+										//"The latch resists!",									// - IRC: BowlSoldier
+										//"The chain is starting to give!",						// - IRC: BowlSoldier
+										//"The chain bends a little.",							// - IRC: STALKER
 										"Your wrist hurts.",									// - IRC: STALKER
 										"Unnng")												// - IRC: Doug_H_Nuts
 

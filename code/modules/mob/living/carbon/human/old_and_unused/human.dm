@@ -96,7 +96,7 @@
 	organs["l_foot"] = l_foot
 	organs["r_foot"] = r_foot
 
-	DEBUG_lfoot = l_foot
+	//DEBUG_lfoot = l_foot
 
 	var/g = "m"
 	if (gender == MALE)
@@ -781,7 +781,7 @@
 		var/dam_zone = pick("chest", "chest", "chest", "head", "groin")
 		if (istype(organs[dam_zone], /datum/organ/external))
 			var/datum/organ/external/temp = organs[dam_zone]
-			temp.take_damage((istype(O, /obj/meteor/small) ? 10 : 25), 30)
+			temp.take_damage((istype(O, /obj/effect/meteor/small) ? 10 : 25), 30)
 			UpdateDamageIcon()
 		updatehealth()
 	return
@@ -992,7 +992,7 @@
 		overlays += image("icon" = 'belt.dmi', "icon_state" = text("[][]", t1, (!( lying ) ? null : "2")), "layer" = MOB_LAYER)
 		belt.screen_loc = ui_belt
 
-	if ((wear_mask && !(wear_mask.see_face)) || (head && !(head.see_face))) // can't see the face
+	if (wear_mask && !wear_mask.see_face || head && !head.see_face || head.flags_inv & HIDEFACE || wear_mask.flags_inv & HIDEFACE) // can't see the face
 		if (wear_id && wear_id.registered)
 			name = wear_id.registered
 		else

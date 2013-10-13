@@ -25,11 +25,11 @@
 		explosionstrength = 1 //NEVER SET THIS BELOW 1
 		floorstrength = 6
 
+
 /turf/space
 	icon = 'space.dmi'
 	name = "space"
 	icon_state = "placeholder"
-	var/sand = 0
 	temperature = TSPC
 	thermal_conductivity = OPEN_HEAT_TRANSFER_COEFFICIENT
 	heat_capacity = 700000
@@ -37,24 +37,21 @@
 
 /turf/space/New()
 	. = ..()
-	if(!sand)
-		icon = 'space.dmi'
-		icon_state = "[rand(1,25)]"
-	else
-		icon = 'sand.dmi'
-		icon_state = "[rand(1,3)]"
+	icon = 'space.dmi'
+	icon_state = "[rand(1,25)]"
 
 /turf/space/proc/Check()
 	var/turf/T = locate(x, y, z + 1)
-	if (T)
-		if(istype(T, /turf/space) || istype(T, /turf/unsimulated))
-			return
-		var/turf/space/S = src
-		var/turf/simulated/floor/open/open = new(src)
-		open.LightLevelRed = S.LightLevelRed
-		open.LightLevelBlue = S.LightLevelBlue
-		open.LightLevelGreen = S.LightLevelGreen
-		open.ul_UpdateLight()
+	if(T)
+		if(!istype(T, /turf/space) && !istype(T, /turf/unsimulated))
+			var/turf/space/S = src
+			var/turf/simulated/floor/open/open = new(src)
+			open.LightLevelRed = S.LightLevelRed
+			open.LightLevelBlue = S.LightLevelBlue
+			open.LightLevelGreen = S.LightLevelGreen
+			open.ul_UpdateLight()
+
+
 
 /turf/simulated/floor/prison			//Its good to be lazy.
 	name = "Welcome to Admin Prison"
@@ -81,25 +78,23 @@
 	heat_capacity = 325000
 
 /turf/simulated/floor/engine/vacuum
-	name = "vacuum floor"
-	icon_state = "engine"
 	oxygen = 0
 	nitrogen = 0.000
 	temperature = TSPC
 
 ///turf/space/hull //TEST
-turf/space/hull
-	name = "Hull Plating"
+/turf/space/hull
+	name = "hull plating"
 	icon = 'floors.dmi'
 	icon_state = "engine"
-turf/space/hull/New()
+
+/turf/space/hull/New()
 	return
 /*	oxygen = 0
 	nitrogen = 0.000
 	temperature = TSPC
 	thermal_conductivity = OPEN_HEAT_TRANSFER_COEFFICIENT
 	heat_capacity = 700000*/
-/turf/simulated/floor/
 
 /turf/simulated/floor
 	name = "floor"
@@ -130,14 +125,10 @@ turf/space/hull/New()
 			open.update()
 
 	airless
-		name = "airless floor"
+		name = "floor"
 		oxygen = 0.01
 		nitrogen = 0.01
 		temperature = TSPC
-
-		New()
-			..()
-			name = "floor"
 
 	open
 		name = "open space"
@@ -167,10 +158,10 @@ turf/space/hull/New()
 			var/turf/T = locate(x, y, z + 1)
 			if(T)
 				//Fortunately, I've done this before. - Aryn
-				if(istype(T,/turf/space)&&!(istype(T,/turf/space/hull)) || T.z > 4)
+				if(istype(T,/turf/space) || T.z > 4)
 					new/turf/space(src)
-				/*else if(!istype(T,/turf/simulated/floor))
-					new/turf/simulated/floor/plating(src)*/
+				else if(!istype(T,/turf/simulated/floor))
+					new/turf/simulated/floor/plating(src)
 				/*
 				switch (T.type) //Somehow, I don't think I thought this cunning plan all the way through - Sukasa
 					if (/turf/simulated/floor)
@@ -207,7 +198,8 @@ turf/space/hull/New()
 			if (..()) //TODO make this check if gravity is active (future use) - Sukasa
 				spawn(1)
 					if(AM)
-						if(AM.Move(locate(x, y, z + 1)))
+						AM.Move(locate(x, y, z + 1))
+						if(AM.loc == locate(x, y, z + 1))
 							if (istype(AM, /mob))
 								AM:adjustBruteLoss(10)
 								AM:weakened = max(AM:weakened,5)
@@ -221,27 +213,17 @@ turf/space/hull/New()
 				user << "\blue Constructing support lattice ..."
 				playsound(src.loc, 'Genhit.ogg', 50, 1)
 				new /obj/structure/lattice(loc)
-				C:amount--
-
-				if (C:amount < 1)
-					user.u_equip(C)
-					del(C)
-					return
+				C:use(1)
 				return
-
 			if (istype(C, /obj/item/stack/tile/metal))
 				if(locate(/obj/structure/lattice, src))
 					var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
 					del(L)
 					playsound(src.loc, 'Genhit.ogg', 50, 1)
 					C:build(src)
-					C:amount--
-
-					if (C:amount < 1)
-						user.u_equip(C)
-						del(C)
-						return
+					C:use(1)
 					return
+
 				else
 					user << "\red The plating is going to need some support."
 			return
@@ -249,13 +231,13 @@ turf/space/hull/New()
 
 		proc
 			update() //Update the overlayss to make the openspace turf show what's down a level
-
 				if(!floorbelow) return
 				src.clearoverlays()
 				src.addoverlay(floorbelow)
 
 				for(var/obj/o in floorbelow.contents)
-					src.addoverlay(image(o, dir=o.dir, layer = TURF_LAYER+0.05*o.layer))
+					if(!(o.pixel_x < -12 || o.pixel_y < -12 || o.pixel_x > 12 || o.pixel_y > 12 || istype(o, /obj/effect)))
+						src.addoverlay(image(o, dir=o.dir, layer = TURF_LAYER+0.05*o.layer))
 
 				var/image/I = image('ULIcons.dmi', "[min(max(floorbelow.LightLevelRed - 4, 0), 7)]-[min(max(floorbelow.LightLevelGreen - 4, 0), 7)]-[min(max(floorbelow.LightLevelBlue - 4, 0), 7)]")
 				I.layer = TURF_LAYER + 0.2
@@ -292,7 +274,7 @@ turf/space/hull/New()
 						zone.Connect(src,floorbelow)
 
 	plating
-		name = "Plating"
+		name = "plating"
 		icon_state = "plating"
 		intact = 0
 
@@ -303,21 +285,16 @@ turf/space/hull/New()
 		a.update()
 
 /turf/simulated/floor/plating/airless
-	name = "Airless Plating"
 	oxygen = 0.01
 	nitrogen = 0.01
 	temperature = TSPC
-
-	New()
-		..()
-		name = "plating"
 
 /turf/simulated/floor/grid
 	icon = 'floors.dmi'
 	icon_state = "circuit"
 
 /turf/simulated/wall
-	name = "Wall"
+	name = "wall"
 	icon = 'walls.dmi'
 	icon_state = "wall0"
 	opacity = 1
@@ -333,7 +310,7 @@ turf/space/hull/New()
 	var/walltype = "metal"
 
 /turf/simulated/wall/r_wall
-	name = "Reinforced Wall"
+	name = "reinforced wall"
 	icon = 'walls.dmi'
 	icon_state = "r_wall"
 	opacity = 1
@@ -428,17 +405,17 @@ turf/space/hull/New()
 	return
 
 /turf/simulated/shuttle
-	name = "Shuttle"
+	name = "shuttle"
 	icon = 'shuttle.dmi'
 	thermal_conductivity = 0.05
 	heat_capacity = 10000000
 
 /turf/simulated/shuttle/floor
-	name = "Shuttle Floor"
+	name = "shuttle floor"
 	icon_state = "floor"
 
 /turf/simulated/shuttle/wall
-	name = "Shuttle Wall"
+	name = "shuttle wall"
 	icon_state = "wall"
 	explosionstrength = 4
 	opacity = 1
@@ -465,12 +442,12 @@ turf/space/hull/New()
 	density = 1
 
 /turf/unsimulated/floor
-	name = "Floor"
+	name = "floor"
 	icon = 'floors.dmi'
 	icon_state = "Floor3"
 
 /turf/unsimulated/wall
-	name = "Wall"
+	name = "wall"
 	icon = 'walls.dmi'
 	icon_state = "riveted"
 	opacity = 1

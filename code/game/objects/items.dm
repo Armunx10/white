@@ -263,7 +263,6 @@
 				// You can only jetpack down if you're sitting on space and there's space down below, or hull
 				if(T && istype(T, /turf/space) && istype(user.loc, /turf/space))
 					user.Move(T)
-				else user << "\red You bump into the ship's plating."
 			else user << "\red The ship's gravity well keeps you in orbit!"
 
 

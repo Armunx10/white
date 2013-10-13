@@ -318,7 +318,8 @@
 			else
 				dismantle_wall(1)
 		if(3.0)
-			dismantle_wall()
+			if (prob(20))
+				dismantle_wall()
 		else
 	return
 
@@ -392,8 +393,8 @@
 			user << "\blue You disassembled the outer wall plating."
 			S.dismantle_wall()
 
-	if(istype(W,/obj/item/frame/light_fixture))
-		var/obj/item/frame/light_fixture/AH = W
+	if(istype(W,/obj/item/frame))
+		var/obj/item/frame/AH = W
 		AH.try_build(src)
 		return
 
@@ -421,6 +422,11 @@
 
 	if (!(istype(usr, /mob/living/carbon/human) || ticker) && ticker.mode.name != "monkey")
 		usr << "\red You don't have the dexterity to do this!"
+		return
+
+	if(istype(W,/obj/item/frame))
+		var/obj/item/frame/AH = W
+		AH.try_build(src)
 		return
 
 	if (thermite)
@@ -839,7 +845,7 @@ turf/simulated/floor/proc/update_icon()
 				if(istype(M:shoes, /obj/item/clothing/shoes) && M:shoes.flags&NOSLIP)
 					prob_slip -= 10
 			prob_slip = round(prob_slip)
-			if (prob_slip < 5) //next to something, but they might slip off
+			if (prob_slip < 10) //next to something, but they might slip off
 				if (prob(prob_slip) )
 					M << "\blue <B>You slipped!</B>"
 					M.inertia_dir = M.last_move
@@ -868,7 +874,7 @@ turf/simulated/floor/proc/update_icon()
 
 	//Copied from old code
 	if (A.x <= 2 || A.x >= (world.maxx - 1) || A.y <= 2 || A.y >= (world.maxy - 1))
-		if(istype(A, /obj/meteor))
+		if(istype(A, /obj/effect/meteor))
 			del(A)
 			return
 
@@ -898,7 +904,7 @@ turf/simulated/floor/proc/update_icon()
 	if(level==Z_STATION)
 		return pick(1, 2, 3, 4)
 	else if(level==Z_SPACE)
-		return 5
+		return pick(5, 7)
 	return 1//Default
 
 	//Old function:

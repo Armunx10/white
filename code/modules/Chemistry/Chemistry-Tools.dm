@@ -12,7 +12,6 @@
 	icon_state = "chemg"
 	force = 2.0
 	var/stage = 0
-	var/state = 0
 	var/list/beakers = new/list()
 	flags = FPRINT | TABLEPASS | CONDUCT | ONBELT | USEDELAY
 
@@ -70,6 +69,9 @@
 			src.state = 1
 			src.icon_state = "chemg_active"
 			playsound(src.loc, 'armbomb.ogg', 75, 1, -3)
+			if(iscarbon(user))
+				var/mob/living/carbon/C = user
+				C.throw_mode_on()
 			spawn(30)
 				explode()
 
@@ -200,9 +202,7 @@
 	density = 0
 
 	New()
-		var/datum/reagents/R = new/datum/reagents(50)
-		reagents = R
-		R.my_atom = src
+		create_reagents(50)
 
 /obj/item/weapon/gun/syringe
 	name = "syringe gun"

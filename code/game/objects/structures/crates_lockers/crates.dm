@@ -12,7 +12,6 @@
 	opened = 0
 	flags = FPRINT
 //	mouse_drag_pointer = MOUSE_ACTIVE_POINTER	//???
-	var/rigged = 0
 
 /obj/structure/closet/crate/open()
 	playsound(src.loc, 'sound/machines/click.ogg', 15, 1, -3)
@@ -22,6 +21,7 @@
 
 	icon_state = icon_opened
 	src.opened = 1
+	return 1
 
 /obj/structure/closet/crate/close()
 	playsound(src.loc, 'sound/machines/click.ogg', 15, 1, -3)
@@ -45,27 +45,12 @@
 
 	icon_state = icon_closed
 	src.opened = 0
+	return 1
 
-/obj/structure/closet/crate/attack_hand(mob/user as mob)
-	if(opened)
-		close()
-	else
-		if(rigged && locate(/obj/item/device/radio/electropack) in src)
-			if(isliving(user))
-				var/mob/living/L = user
-				if(L.electrocute_act(22, src))
-					var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-					s.set_up(5, 1, src)
-					s.start()
-					return
-		open()
-	return
 
 /obj/structure/closet/crate/fireworks
 	name = "Fireworks crate"
 /obj/structure/closet/crate/fireworks/New()
-	new /obj/item/weapon/sparkler(src)
-	new /obj/item/weapon/sparkler(src)
 	new /obj/item/weapon/sparkler(src)
 	new /obj/item/weapon/sparkler(src)
 	new /obj/item/weapon/sparkler(src)
@@ -86,7 +71,6 @@
 /obj/structure/closet/crate/internals
 	desc = "A internals crate."
 	name = "Internals crate"
-	icon = 'icons/obj/storage.dmi'
 	icon_state = "o2crate"
 	icon_opened = "o2crateopen"
 	icon_closed = "o2crate"
@@ -100,6 +84,13 @@
 	new /obj/item/clothing/mask/gas(src)
 	new /obj/item/weapon/tank/air(src)
 
+/obj/structure/closet/crate/internalsoxy
+	desc = "A internals crate."
+	name = "Internals crate"
+	icon_state = "o2crate"
+	icon_opened = "o2crateopen"
+	icon_closed = "o2crate"
+
 /obj/structure/closet/crate/internalsoxy/New()
 	new /obj/item/clothing/mask/gas(src)
 	new /obj/item/weapon/tank/oxygen(src)
@@ -111,7 +102,6 @@
 /obj/structure/closet/crate/trashcart
 	desc = "A heavy, metal trashcart with wheels."
 	name = "Trash Cart"
-	icon = 'icons/obj/storage.dmi'
 	icon_state = "trashcart"
 	icon_opened = "trashcartopen"
 	icon_closed = "trashcart"
@@ -218,6 +208,19 @@
 	icon_opened = "radiationopen"
 	icon_closed = "radiation"
 
+/obj/structure/closet/crate/secure
+	desc = "A secure crate."
+	name = "Secure crate"
+	icon_state = "securecrate"
+	icon_opened = "securecrateopen"
+	icon_closed = "securecrate"
+	var/redlight = "securecrater"
+	var/greenlight = "securecrateg"
+	var/sparks = "securecratesparks"
+	var/emag = "securecrateemag"
+	var/broken = 0
+	var/locked = 1
+
 /obj/structure/closet/crate/secure/weapon
 	desc = "A secure weapons crate."
 	name = "Weapons crate"
@@ -263,19 +266,6 @@
 	greenlight = "largebing"
 	sparks = "largebinsparks"
 	emag = "largebinemag"
-
-/obj/structure/closet/crate/secure
-	desc = "A secure crate."
-	name = "Secure crate"
-	icon_state = "securecrate"
-	icon_opened = "securecrateopen"
-	icon_closed = "securecrate"
-	var/redlight = "securecrater"
-	var/greenlight = "securecrateg"
-	var/sparks = "securecratesparks"
-	var/emag = "securecrateemag"
-	var/broken = 0
-	var/locked = 1
 
 /obj/structure/closet/crate/hydroponics
 	name = "Hydroponics crate"
@@ -329,12 +319,6 @@
 		overlays.Cut()
 		overlays += greenlight
 
-/obj/structure/closet/crate/rcd/New()
-	..()
-	new /obj/item/weapon/rcd_ammo(src)
-	new /obj/item/weapon/rcd_ammo(src)
-	new /obj/item/weapon/rcd_ammo(src)
-	new /obj/item/weapon/rcd(src)
 
 /obj/structure/closet/crate/radiation/New()
 	..()

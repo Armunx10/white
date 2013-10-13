@@ -85,7 +85,7 @@
 	projectile_type = "/obj/item/projectile/beam/xray"
 	charge_cost = 50
 
-/*
+
 ////////Laser Tag////////////////////
 
 /obj/item/weapon/gun/energy/laser/bluetag
@@ -106,11 +106,11 @@
 
 	New()
 		..()
-		processing_objects.Add(src)
+		processing_items.Add(src)
 
 
 	Del()
-		processing_objects.Remove(src)
+		processing_items.Remove(src)
 		..()
 
 
@@ -143,11 +143,11 @@
 
 	New()
 		..()
-		processing_objects.Add(src)
+		processing_items.Add(src)
 
 
 	Del()
-		processing_objects.Remove(src)
+		processing_items.Remove(src)
 		..()
 
 
@@ -158,4 +158,4 @@
 		if(!power_supply) return 0
 		power_supply.give(100)
 		update_icon()
-		return 1*/
+		return 1

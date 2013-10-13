@@ -1,4 +1,4 @@
-/obj/mine/proc/triggerrad(obj)
+/obj/effect/mine/proc/triggerrad(obj)
 	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
@@ -8,7 +8,7 @@
 	spawn(0)
 		del(src)
 
-/obj/mine/proc/triggerstun(obj)
+/obj/effect/mine/proc/triggerstun(obj)
 	obj:stunned += 30
 	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 	s.set_up(3, 1, src)
@@ -16,7 +16,7 @@
 	spawn(0)
 		del(src)
 
-/obj/mine/proc/triggern2o(obj)
+/obj/effect/mine/proc/triggern2o(obj)
 	//example: n2o triggerproc
 	//note: im lazy
 
@@ -36,7 +36,7 @@
 	spawn(0)
 		del(src)
 
-/obj/mine/proc/triggerplasma(obj)
+/obj/effect/mine/proc/triggerplasma(obj)
 	for (var/turf/simulated/floor/target in range(1,src))
 		if(!target.blocks_air)
 			//if(target.parent)
@@ -53,7 +53,7 @@
 	spawn(0)
 		del(src)
 
-/obj/mine/proc/triggerkick(obj)
+/obj/effect/mine/proc/triggerkick(obj)
 	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
@@ -61,16 +61,16 @@
 	spawn(0)
 		del(src)
 
-/obj/mine/proc/explode(obj)
+/obj/effect/mine/proc/explode(obj)
 	explosion(loc, 0, 1, 2, 3, 1)
 	spawn(0)
 		del(src)
 
 
-/obj/mine/HasEntered(AM as mob|obj)
+/obj/effect/mine/HasEntered(AM as mob|obj)
 	Bumped(AM)
 
-/obj/mine/Bumped(mob/M as mob|obj)
+/obj/effect/mine/Bumped(mob/M as mob|obj)
 
 	if(triggered) return
 
@@ -80,7 +80,7 @@
 		triggered = 1
 		call(src,triggerproc)(M)
 
-/obj/mine/New()
+/obj/effect/mine/New()
 	icon_state = "uglyminearmed"
 
 /obj/item/assembly/proc/c_state(n, O as obj)

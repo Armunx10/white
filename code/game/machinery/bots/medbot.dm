@@ -282,7 +282,7 @@
 			src.medicate_patient(src.patient)
 		return
 
-	else if(src.patient && src.path && (src.path.len) && (get_dist(src.patient,src.path[src.path.len]) > 2))
+	else if(src.patient && src.path && src.path.len && (get_dist(src.patient,src.path[src.path.len]) > 2))
 		src.path = new()
 		src.currently_healing = 0
 		src.last_found = world.time
@@ -310,7 +310,6 @@
 
 		if(src.path.len > 8 && src.patient)
 			src.frustration++
-
 	return
 
 

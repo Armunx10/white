@@ -21,18 +21,20 @@
 
 /obj/structure/closet/emcloset/New()
 	..()
-	new /obj/item/weapon/tank/emergency_oxygen(src)
-	new /obj/item/clothing/mask/breath(src)
+	if (prob(40)) new /obj/item/weapon/storage/toolbox/emergency(src)
+	if (prob(25)) new /obj/item/weapon/storage/firstaid/o2(src)
 
-	new /obj/item/weapon/tank/emergency_oxygen(src)
+	if (prob(10)) new /obj/item/weapon/tank/emergency_oxygen/engi(src)
+	else new  /obj/item/weapon/tank/emergency_oxygen(src)
 	new /obj/item/clothing/mask/breath(src)
 
 	if (prob(10)) new /obj/item/weapon/tank/emergency_oxygen/engi(src)
 	else new  /obj/item/weapon/tank/emergency_oxygen(src)
 	new /obj/item/clothing/mask/breath(src)
 
-	if (prob(40)) new /obj/item/weapon/storage/toolbox/emergency(src)
-	if (prob(25)) new /obj/item/weapon/storage/firstaid/o2(src)
+	if (prob(10)) new /obj/item/weapon/tank/emergency_oxygen/engi(src)
+	else new  /obj/item/weapon/tank/emergency_oxygen(src)
+	new /obj/item/clothing/mask/breath(src)
 
 
 /obj/structure/closet/emcloset/legacy/New()
@@ -44,8 +46,8 @@
  */
 
 /obj/structure/closet/firecloset
-	desc = "fire-safety closet"
-	name = "It's a storage unit for fire-fighting supplies."
+	name = "fire-safety closet"
+	desc = "It's a storage unit for fire-fighting supplies."
 	icon_state = "firecloset"
 	icon_closed = "firecloset"
 	icon_opened = "fireclosetopen"

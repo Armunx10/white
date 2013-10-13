@@ -34,8 +34,8 @@
 	B.layer = 20
 	user << "You add the tiles into the empty toolbox. They stick oddly out the top."
 
-	if(istype(src, /obj/item/weapon/storage/toolbox/empty) || istype(src, /obj/item/weapon/storage/toolbox/emergency)) B.color = "r"
-	else if (istype(src, /obj/item/weapon/storage/toolbox/electrical)) B.color = "y"
+	if(istype(src, /obj/item/weapon/storage/toolbox/empty) || istype(src, /obj/item/weapon/storage/toolbox/emergency)) B.item_color = "r"
+	else if (istype(src, /obj/item/weapon/storage/toolbox/electrical)) B.item_color = "y"
 	user.update_clothing()
 	del(T)
 	del(src)

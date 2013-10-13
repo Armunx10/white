@@ -170,7 +170,7 @@
 				comm.messagetitle.Add("Cent. Com. Status Summary")
 				comm.messagetext.Add(intercepttext)
 		spawn(12000*tick_multiplier)
-			command_alert("Repeating the previous message over intercoms due to urgency. The station has enemy operatives onboard by the names of [reveal_rev_heads()], please arrest them at once.", "The revolution leaders have been determined.")
+			command_alert("Repeating the previous message over intercoms due to urgency. The ship has enemy operatives onboard by the names of [reveal_rev_heads()], please arrest them at once.", "The revolution leaders have been determined.")
 
 
 /datum/game_mode/rp_revolution/proc/reveal_rev_heads()

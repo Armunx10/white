@@ -866,7 +866,7 @@
 			back1 = /obj/item/weapon/handcuffs
 			back2 = /obj/item/weapon/gun/energy/laser
 		if("Prisoner Management")
-			uniform = /obj/item/clothing/under/lightred
+			uniform = /obj/item/clothing/under/color/lightred
 			shoes = /obj/item/clothing/shoes/red
 			gloves = /obj/item/clothing/gloves/latex
 			back1 = /obj/item/weapon/handcuffs

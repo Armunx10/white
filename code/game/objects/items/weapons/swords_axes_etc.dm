@@ -22,11 +22,10 @@ CLASSIC BATON
 	w_class = 2.0
 	flags = FPRINT | TABLEPASS | NOSHIELD
 	origin_tech = "magnets=3;syndicate=4"
-	var/color
 
 
 /obj/item/weapon/melee/energy/sword/New()
-	color = pick("red", "blue", "green", "purple")
+	item_color = pick("red", "blue", "green", "purple")
 
 /obj/item/weapon/melee/energy/sword/IsShield()
 	return active
@@ -46,7 +45,7 @@ CLASSIC BATON
 		if(istype(src,/obj/item/weapon/melee/energy/sword/pirate))
 			icon_state = "cutlass1"
 		else
-			icon_state = "sword[color]"
+			icon_state = "sword[item_color]"
 		playsound(user, 'sound/weapons/saberon.ogg', 50, 1)
 		user << "\blue The sword is now active."
 		src.force = 30
@@ -86,15 +85,15 @@ CLASSIC BATON
 	icon_state = "cutlass0"
 
 /obj/item/weapon/melee/energy/sword/green/New()
-	color = "green"
+	item_color = "green"
 
 /obj/item/weapon/melee/energy/sword/red/New()
-	color = "red"
+	item_color = "red"
 
 // AXE
 
 /obj/item/weapon/melee/energy/axe
-	name = "Axe"
+	name = "energy axe"
 	desc = "An energised battle axe."
 	icon_state = "axe0"
 	var/active = 0.0
@@ -125,7 +124,7 @@ CLASSIC BATON
 
 // STUN BATON
 /obj/item/weapon/melee/baton
-	name = "Stun Baton"
+	name = "stunbaton"
 	desc = "A stun baton for hitting people with."
 	icon_state = "stunbaton"
 	item_state = "baton"
@@ -153,8 +152,8 @@ CLASSIC BATON
 /obj/item/weapon/melee/baton/attack_self(mob/user as mob)
 	src.status = !( src.status )
 	if ((usr.mutations & CLUMSY) && prob(50))
-		usr << "\red You grab the stunbaton on the wrong side."
-		usr.paralysis += 60
+		usr << "\red You grab the stunbaton on the wrong side!"
+		usr.Stun(10)
 		return
 	if (src.status)
 		user << "\blue The baton is now on."
@@ -170,7 +169,7 @@ CLASSIC BATON
 /obj/item/weapon/melee/baton/attack(mob/M as mob, mob/user as mob)
 	if ((usr.mutations & CLUMSY) && prob(50))
 		usr << "\red You grab the stunbaton on the wrong side."
-		usr.weakened += 30
+		usr.Stun(10)
 		return
 	src.add_fingerprint(user)
 	var/mob/living/carbon/human/H = M

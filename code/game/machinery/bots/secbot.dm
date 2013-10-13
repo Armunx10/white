@@ -94,13 +94,14 @@
 		radio.listening = 0
 
 
-		contraband += /obj/item/weapon/gun/projectile
+		//contraband += /obj/item/weapon/gun/projectile/
+		contraband += /obj/item/weapon/gun/projectile/automatic/c20r
 		//contraband += /obj/item/weapon/c_tube //Toy sword ey, not on beepskies watch
 		contraband += /obj/item/weapon/melee/energy/sword
 		contraband += /obj/item/device/chameleon
 		contraband += /obj/item/device/hacktool
 		contraband += /obj/item/device/powersink
-		contraband += /obj/item/weapon/staff
+		//contraband += /obj/item/weapon/staff
 		contraband += /obj/item/device/cloak
 
 /obj/machinery/bot/secbot/examine()
@@ -288,7 +289,6 @@ Auto Patrol: []"},
 					var/gotstuff
 					if(src.target:r_hand)
 						gotstuff = "Captured items from [src.target.name]: [src.target.r_hand.name]"
-						src.target:r_hand.name += " (Captured by [src.name] from [target.name])"
 						src.target:r_hand.moveto(src)
 
 					if(src.target:l_hand)
@@ -296,7 +296,6 @@ Auto Patrol: []"},
 							gotstuff = "Captured items from [src.target.name]: [src.target.l_hand.name]"
 						else
 							gotstuff += " and [src.target.l_hand.name]"
-							src.target:l_hand.name += " (Captured by [src.name] from [target.name])"
 							src.target:l_hand.moveto(src)
 
 					if(gotstuff)
@@ -344,11 +343,9 @@ Auto Patrol: []"},
 						if(secure_arrest)
 							if(src.target:belt)
 								var/obj/item/I = src.target:belt
-								I.name += " (Captured by [src.name] from [target.name])" //Might move this into something embedded within the item that the forenzics scanner can read
 								I.moveto(src)
 							if(src.target:back)
 								var/obj/item/I = src.target:back
-								I.name += " (Captured by [src.name] from [target.name])"
 								I.moveto(src)
 						///	if(src.target:wear_id)
 						//		var/obj/item/I = src.target:wear_id
@@ -356,15 +353,12 @@ Auto Patrol: []"},
 						//		I.moveto(src)
 							if(src.target:l_store)
 								var/obj/item/I = src.target:l_store
-								I.name += " (Captured by [src.name] from [target.name])"
 								I.moveto(src)
 							if(src.target:r_store)
 								var/obj/item/I = src.target:r_store
-								I.name += " (Captured by [src.name] from [target.name])"
 								I.moveto(src)
 							if(src.target:glasses)
 								var/obj/item/I = src.target:glasses
-								I.name += " (Captured by [src.name] from [target.name])"
 								I.moveto(src)
 							src.speak("Due to suspection of Syndicate affiliation, the person has been stripped of his gear.")
 
@@ -678,10 +672,20 @@ Auto Patrol: []"},
 				return 10
 
 		for(var/obj in contraband) //Syndicate contraband... Hidden programming by NT means that beepsky WILL arrest on sight
-			if( istype(perp:belt,obj) || istype(perp.l_hand,obj) || istype(perp.r_hand,obj) /*|| istype(perp:wear_suit,obj)*/ )
+			var/found = 0
+			if(istype(perp:belt,obj) || istype(perp.l_hand,obj) || istype(perp.r_hand,obj))
+				found = 1
+			if(perp:l_hand && perp:l_hand.type == /obj/item/weapon/gun/projectile/)
+				found = 1
+			if(perp:r_hand && perp:r_hand.type == /obj/item/weapon/gun/projectile/)
+				found = 1
+			if(perp:belt && perp:belt.type == /obj/item/weapon/gun/projectile/)
+				found = 1
+			if(found)
 				arrestreasons += "Carrying syndicate contraband"
 				secure_arrest = 1
 				return 10
+
 
 		if(src.allowed(perp)) //Corrupt cops cannot exist beep boop // Except if they are carrying contraband
 			arrestreasons = list()

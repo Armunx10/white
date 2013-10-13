@@ -30,7 +30,6 @@
 	var/note = "Congratulations, your station has chosen the Thinktronic 5230 Personal Data Assistant!" //Current note in the notepad function.
 	var/cart = "" //A place to stick cartridge menu information
 
-	//var/obj/item/weapon/integrated_uplink/uplink = null
 	var/obj/item/device/uplink/pda/uplink = null
 
 	var/obj/item/weapon/card/id/id = null //Making it possible to slot an ID card into the PDA so it can function as both.
@@ -164,6 +163,9 @@
 	if (fon)
 		user.ul_SetLuminosity(user.luminosity - f_lum)
 		user.ul_SetLuminosity(user.luminosity + f_lum)
+
+/obj/item/device/pda/GetID()
+	return id
 
 /obj/item/device/pda/New()
 	..()
@@ -871,7 +873,7 @@
 				user << "\blue No significant chemical agents found in [A]."
 
 	if (!scanmode && istype(A, /obj/item/weapon/paper) && owner)
-		if ((!isnull(uplink)) && (uplink.active))
+		if (!isnull(uplink) && uplink.active)
 			uplink.orignote = A:info
 		else
 			note = A:info
@@ -907,7 +909,7 @@
 		//if ((istype(M, /mob/living/carbon/human) && istype(M:shoes, /obj/item/clothing/shoes/galoshes)) || M.m_intent == "walk") // bay12 one, now tg one works -- ACCount
 			return
 
-		if ((istype(M, /mob/living/carbon/human) && (M.real_name != src.owner) && (istype(src.cartridge, /obj/item/weapon/cartridge/clown))))
+		if (istype(M, /mob/living/carbon/human) && M.real_name != src.owner && istype(src.cartridge, /obj/item/weapon/cartridge/clown))
 			src.cartridge:honk_charges++
 
 		M.pulling = null

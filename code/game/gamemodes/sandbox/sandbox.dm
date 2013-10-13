@@ -34,7 +34,7 @@
 
 /datum/game_mode/sandbox/announce()
 	..()
-	world << "<B>Build your own station with the sandbox-panel command!</B>"
+	world << "<B>Build your own ship with the sandbox-panel command!</B>"
 
 /datum/game_mode/sandbox/post_setup()
 	for(var/client/C)

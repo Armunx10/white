@@ -8,29 +8,15 @@ FLASHBANG
 /obj/item/weapon/grenade/flashbang
 	desc = "It is set to detonate in 3 seconds."
 	name = "flashbang"
-	icon = 'grenade.dmi'
-	icon_state = "flashbang"
-	var/state = null
-	var/det_time = 30.0
-	w_class = 2.0
-	item_state = "flashbang"
-	throw_speed = 4
-	throw_range = 20
-	flags = FPRINT | TABLEPASS | CONDUCT | ONBELT
+	det_time = 30
 	origin_tech = "materials=2;combat=1"
 
 /obj/item/weapon/grenade/emp
 	desc = "It is set to detonate in 5 seconds."
 	name = "emp grenade"
-	var/state = null
-	var/det_time = 50.0
-	w_class = 2.0
-	icon = 'grenade.dmi'
+	det_time = 50
 	icon_state = "emp"
 	item_state = "emp"
-	throw_speed = 4
-	throw_range = 20
-	flags = FPRINT | TABLEPASS | CONDUCT | ONBELT
 	origin_tech = "materials=2;magnets=3"
 
 /obj/item/weapon/grenade/emp/afterattack(atom/target as mob|obj|turf|area, mob/user as mob)
@@ -156,11 +142,11 @@ FLASHBANG
 				C.name = "psychedelic"
 				C.desc = "Groovy!"
 				C.icon_state = "psyche"
-				C.color = "psyche"
+				C.item_color = "psyche"
 				spawn(200)
 					C.name = "Black Jumpsuit"
 					C.icon_state = "bl_suit"
-					C.color = "black"
+					C.item_color = "black"
 					C.desc = null
 
 		M << "\red <B>BZZZT</B>"

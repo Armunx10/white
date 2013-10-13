@@ -48,6 +48,8 @@
 /mob/living/carbon/human/var/datum/organ/external/DEBUG_lfoot
 /mob/living/carbon/human/var/datum/reagents/vessel
 
+/mob/living/carbon/human/var/list/hud_list = list()
+
 /mob/living/carbon/human/dummy
 	real_name = "Test Dummy"
 	nodamage = 1
@@ -122,7 +124,7 @@
 	organs += r_leg
 	organs += l_foot
 	organs += r_foot
-	DEBUG_lfoot = l_foot
+	//DEBUG_lfoot = l_foot
 
 	var/g = "m"
 	if (gender == MALE)
@@ -147,6 +149,9 @@
 
 	// random infection :D
 	//if(prob(3)) infect_mob_random_lesser(src)	//theres an event for it now/again
+
+	for(var/i=0;i<7;i++) // 2 for medHUDs and 5 for secHUDs
+		hud_list += image('icons/mob/hud.dmi', src, "hudunknown")
 
 	update_clothing()
 
@@ -213,21 +218,22 @@
 
 	if(reagents.has_reagent("nuka_cola")) return -1
 	if(reagents.has_reagent("hyperzine")) return -1
+	if(istype(get_turf(src), /turf/space)) return -1
 
 	var/health_deficiency = (health_full - health)
 	if(health_deficiency >= 40)
-		tally += (health_deficiency / 30)
+		tally += (health_deficiency / 40)
 
 	for(var/organ in list("l_leg","l_foot","r_leg","r_foot"))
 		var/datum/organ/external/o = organs["[organ]"]
-		if(o.broken) tally += 4
+		if(o.broken) tally += 2
 
 	if(wear_suit) tally += wear_suit.slowdown
 
 	if(shoes) tally += shoes.slowdown
 
 	if (bodytemperature < 283.222)
-		tally += (283.222 - bodytemperature) / 10 * 1.25
+		tally += (283.222 - bodytemperature) / 20 * 1.25
 
 	return tally
 
@@ -836,7 +842,7 @@
 			var/datum/organ/external/temp = organs[dam_zone]
 			if(temp.destroyed)
 				return
-			temp.take_damage((istype(O, /obj/meteor/small) ? 10 : 25), 30)
+			temp.take_damage((istype(O, /obj/effect/meteor/small) ? 10 : 25), 30)
 			UpdateDamageIcon()
 		updatehealth()
 	return

@@ -82,14 +82,6 @@
 	luminosity = 1
 	ul_Lighting = 0
 
-/area/MechZone
-	name = "Mechanical Battle Zone"
-	icon_state = "start"
-	applyalertstatus = 0
-	requires_power = 0
-	luminosity = 1
-	ul_Lighting = 0
-
 /area/adminsafety
 	name = "Admin safe zone"
 	icon_state = "start"
@@ -107,16 +99,9 @@
 	luminosity = 1
 	ul_Lighting = 0
 
-/area/shuttle/mining/
+/area/shuttle/mining
 	name = "Mining Shuttle"
 	icon_state = "shuttle1_2"
-
-/area/shuttle/mining/start
-	name = "Mining Shuttle"
-
-/area/shuttle/mining/finish
-	name = "Mining Shuttle"
-
 
 /area/shuttle/miningsast
 	name = "Mining Shuttle Asteroid"
@@ -601,7 +586,7 @@
 
 
 /area/crew_quarters/locker
-	name = "Locker Room"
+	name = "locker Room"
 	icon_state = "locker"
 
 /area/crew_quarters/laundry

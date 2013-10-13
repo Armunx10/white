@@ -14,6 +14,7 @@
 	var/lastbang
 	var/storage_capacity = 50 //This is so that someone can't pack hundreds of items in a locker/crate
 							  //then open it in a populated area to crash clients.
+	var/rigged = 0
 
 /obj/structure/closet/New()
 	..()
@@ -189,6 +190,25 @@
 
 		if(W)
 			W.loc = src.loc
+	else if(istype(W, /obj/item/weapon/cable_coil))
+		if(rigged)
+			user << "<span class='notice'>[src] is already rigged!</span>"
+			return
+		if(!W:use(5)) return
+		user  << "<span class='notice'>You rig [src].</span>"
+		user.drop_item()
+		rigged = 1
+		return
+	else if(istype(W, /obj/item/device/radio/electropack) && rigged)
+		user  << "<span class='notice'>You attach [W] to [src].</span>"
+		user.drop_item()
+		W.loc = src
+		return
+	else if(istype(W, /obj/item/weapon/wirecutters) && rigged)
+		user  << "<span class='notice'>You cut away the wiring.</span>"
+		playsound(loc, 'sound/items/Wirecutter.ogg', 100, 1)
+		rigged = 0
+		return
 
 	/*else if(istype(W, /obj/item/weapon/packageWrap))
 		return*/
@@ -247,7 +267,14 @@
 
 /obj/structure/closet/attack_hand(mob/user as mob)
 	src.add_fingerprint(user)
-
+	if(rigged && locate(/obj/item/device/radio/electropack) in src)
+		if(isliving(user))
+			var/mob/living/L = user
+			if(L.electrocute_act(22, src))
+				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				s.set_up(5, 1, src)
+				s.start()
+				return
 	if(!src.toggle())
 		usr << "<span class='notice'>It won't budge!</span>"
 

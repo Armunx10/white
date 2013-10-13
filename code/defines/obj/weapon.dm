@@ -15,17 +15,6 @@
 	origin_tech = "magnets=1;engineering=1"
 	throw_range = 20
 
-/obj/item/weapon/banana
-	name = "Banana"
-	desc = "A banana."
-	icon = 'items.dmi'
-	icon_state = "banana"
-	item_state = "banana"
-	throwforce = 0
-	w_class = 1.0
-	throw_speed = 4
-	throw_range = 20
-
 /obj/item/weapon/bedsheet
 	name = "bedsheet"
 	icon = 'items.dmi'
@@ -54,7 +43,7 @@
 	var/list/files = list(  )
 
 /obj/item/weapon/card/data
-	name = "data disk"
+	name = "data card"
 	icon_state = "data"
 	var/function = "storage"
 	var/data = "null"
@@ -75,6 +64,8 @@
 	var/access = list()
 	var/registered = null
 	var/assignment = null
+/obj/item/weapon/card/id/attackby()
+	return
 
 /obj/item/weapon/card/id/gold
 	name = "identification card"
@@ -243,7 +234,6 @@
 	name = "Paint Can"
 	icon = 'old_or_unused.dmi'
 	icon_state = "paint_neutral"
-	var/color = "neutral"
 	item_state = "paintcan"
 	w_class = 3.0
 
@@ -265,20 +255,13 @@
 	var/permeability_coefficient = 0.99
 	var/siemens_coefficient = 0.80
 
-	New()
-		processing_items += src
-		..()
-
-	Del()
-		processing_items -= src
-		..()
-
-	process()
-		var/turf/t = get_turf(src)
-		var/datum/gas_mixture/air_sample = t.return_air()
-		if(t.temperature>=1000||air_sample.temperature>=1000)
-			Del()
-
+/obj/item/weapon/paper/scan
+	var/mname
+	var/dna
+	var/age
+	var/bloodtype
+	var/fingerprint
+	var/mgender
 
 /obj/item/weapon/paper/Router_pass
 	name = "paper- 'NSV Luna Network Router Passwords'"

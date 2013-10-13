@@ -9,12 +9,11 @@
 	throw_speed = 2
 	throw_range = 5
 	w_class = 3.0
-	var/color = null
 	flags = TABLEPASS
 
 	New()
 		..()
-		spawn(1) icon_state = "[color]toolbox_tiles"
+		spawn(1) icon_state = "[item_color]toolbox_tiles"
 
 /obj/item/weapon/robot_assembly/toolbox_tiles_sensor
 	desc = "It's a toolbox with tiles sticking out the top and a sensor attached"
@@ -26,13 +25,12 @@
 	throw_speed = 2
 	throw_range = 5
 	var/created_name
-	var/color = null
 	w_class = 3.0
 	flags = TABLEPASS
 
 	New()
 		..()
-		spawn(1) icon_state = "[color]toolbox_tiles"
+		spawn(1) icon_state = "[item_color]toolbox_tiles"
 
 //Floorbot
 /obj/machinery/bot/floorbot
@@ -53,7 +51,7 @@
 	var/turf/target
 	var/turf/oldtarget
 	var/oldloc = null
-	var/color = null
+	var/bot_color = null
 	req_access = list(access_atmospherics)
 
 
@@ -326,9 +324,9 @@ text("<A href='?src=\ref[src];operation=make'>[src.maketiles ? "Yes" : "No"]</A>
 
 /obj/machinery/bot/floorbot/update_icon()
 	if(src.amount > 0)
-		src.icon_state = "[color]floorbot[src.on]"
+		src.icon_state = "[bot_color]floorbot[src.on]"
 	else
-		src.icon_state = "[color]floorbot[src.on]e"
+		src.icon_state = "[bot_color]floorbot[src.on]e"
 
 
 /obj/item/weapon/robot_assembly/toolbox_tiles/attackby(var/obj/item/device/prox_sensor/D, mob/user as mob)
@@ -344,7 +342,7 @@ text("<A href='?src=\ref[src];operation=make'>[src.maketiles ? "Yes" : "No"]</A>
 		user.l_hand = B
 	B.layer = 20
 	user << "You add the sensor to the toolbox and tiles!"
-	B.color = src.color
+	B.item_color = src.item_color
 	user.update_clothing()
 	del(D)
 	del(src)
@@ -369,7 +367,7 @@ text("<A href='?src=\ref[src];operation=make'>[src.maketiles ? "Yes" : "No"]</A>
 	if(created_name)
 		A.name = created_name
 	user << "You add the robot arm to the odd looking toolbox assembly! Boop beep!"
-	A.color = src.color
+	A.bot_color = src.item_color
 	user.update_clothing()
 	del(W)
 	del(src)
